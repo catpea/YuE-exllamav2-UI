@@ -52,7 +52,16 @@ if [ ! -f "$INIT_MARKER" ]; then
     # cd ..
 
     echo "Installing dependencies from requirements.txt..."
-    pip install --no-cache-dir -r $REPO_DIR/requirements.txt
+    # Install requirements except flash-attn (needs special handling)
+    grep -v "flash-attn" $REPO_DIR/requirements.txt > /tmp/requirements_no_flash.txt
+    pip install --no-cache-dir -r /tmp/requirements_no_flash.txt
+
+    # Install flash-attn separately with --no-build-isolation
+    echo "Installing flash-attn (this may take a few minutes)..."
+    pip install --no-cache-dir --no-build-isolation flash-attn || {
+        echo "⚠️  Warning: flash-attn installation failed. Continuing without it..."
+        echo "   This is not critical - the system will work without flash-attn"
+    }
 
 
     #cp -r $REPO_DIR/transformers/ /opt/conda/envs/pyenv/lib/python3.12/site-packages
