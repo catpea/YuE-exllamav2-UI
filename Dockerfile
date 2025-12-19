@@ -56,13 +56,13 @@ ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 ENV PATH="/opt/conda/envs/pyenv/bin:$PATH"
 
 
-# Download and install Miniconda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
-    bash miniconda.sh -b -p $CONDA_DIR && \
-    rm miniconda.sh && \
+# Download and install Miniforge (conda-forge only, no TOS required)
+RUN wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O miniforge.sh && \
+    bash miniforge.sh -b -p $CONDA_DIR && \
+    rm miniforge.sh && \
     $CONDA_DIR/bin/conda init bash && \
     $CONDA_DIR/bin/conda create -n pyenv python=3.12 -y && \
-    $CONDA_DIR/bin/conda install -n pyenv -c conda-forge openmpi mpi4py -y
+    $CONDA_DIR/bin/conda install -n pyenv openmpi mpi4py -y
 
 # Define PyTorch versions via arguments
 ARG PYTORCH="2.5.1"
