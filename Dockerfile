@@ -15,7 +15,7 @@ ENV PYTHON_VERSION=3.12
 ENV CONDA_DIR=/opt/conda
 ENV PATH="$CONDA_DIR/bin:$PATH"
 # ENV NUM_GPUS=1
-ENV DOWNLOAD_MODELS="all"
+ENV DOWNLOAD_MODELS="YuE-s1-7B-anneal-en-cot-exl2-4.0bpw,YuE-s2-1B-general-exl2-6.0bpw,YuE-upsampler"
 
 # Install dependencies required for Miniconda
 RUN apt-get update -y && \

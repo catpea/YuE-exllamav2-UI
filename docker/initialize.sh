@@ -15,14 +15,14 @@ then
     service ssh start
 fi
 
-#!/bin/bash
-if [[ -z "${HF_TOKEN}" ]] || [[ "${HF_TOKEN}" == "enter_your_huggingface_token_here" ]]
-then
-    echo "HF_TOKEN is not set"
-else
-    echo "HF_TOKEN is set, logging in..."
-    huggingface-cli login --token ${HF_TOKEN}
-fi
+# Hugging Face login is optional - uncomment below if you need private model access
+# if [[ -n "${HF_TOKEN}" ]] && [[ "${HF_TOKEN}" != "enter_your_huggingface_token_here" ]]
+# then
+#     echo "HF_TOKEN is set, logging in..."
+#     huggingface-cli login --token ${HF_TOKEN}
+# else
+#     echo "HF_TOKEN not configured - skipping Hugging Face login"
+# fi
 
 # Start nginx as reverse proxy to enable api access
 service nginx start
