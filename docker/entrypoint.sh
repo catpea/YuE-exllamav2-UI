@@ -58,10 +58,15 @@ if [ ! -f "$INIT_MARKER" ]; then
     #cp -r $REPO_DIR/transformers/ /opt/conda/envs/pyenv/lib/python3.12/site-packages
 
     if [ ! -d "${PROJECT_DIR}/xcodec_mini_infer" ]; then
-        huggingface-cli download m-a-p/xcodec_mini_infer --local-dir "${PROJECT_DIR}/xcodec_mini_infer"
+        hf download m-a-p/xcodec_mini_infer --local-dir "${PROJECT_DIR}/xcodec_mini_infer"
     else
         echo "Skipping the model xcodec_mini_infer download because it already exists."
     fi
+
+    # Ensure model directory has proper permissions
+    echo "Setting up model directory permissions..."
+    mkdir -p "${MODEL_DIR}"
+    chmod -R 777 "${MODEL_DIR}"
 
     if [ "$DOWNLOAD_MODELS" != "false" ]; then
         echo "Downloading selected models..."
@@ -107,7 +112,9 @@ if [ ! -f "$INIT_MARKER" ]; then
 
             if [ ! -d "$DESTINATION" ]; then
                 echo "Downloading model: $MODEL from $SOURCE to $DESTINATION"
-                huggingface-cli download "$SOURCE" --local-dir "$DESTINATION"
+                mkdir -p "$DESTINATION"
+                chmod 777 "$DESTINATION"
+                hf download "$SOURCE" --local-dir "$DESTINATION"
             else
                 echo "Skipping the model $MODEL because it already exists in $DESTINATION."
             fi
