@@ -75,8 +75,13 @@ RUN $CONDA_DIR/bin/conda run -n pyenv \
 RUN $CONDA_DIR/bin/conda install -n pyenv nvidia/label/cuda-12.4.1::cuda-nvcc
 
 RUN $CONDA_DIR/bin/conda run -n pyenv pip install setuptools
-COPY exllamav2-0.2.7+cu121.torch2.5.0-cp312-cp312-linux_x86_64.whl .
-RUN $CONDA_DIR/bin/conda run -n pyenv pip install exllamav2-0.2.7+cu121.torch2.5.0-cp312-cp312-linux_x86_64.whl
+
+# Build and install exllamav2 from source
+RUN git clone https://github.com/turboderp/exllamav2 /tmp/exllamav2 && \
+    cd /tmp/exllamav2 && \
+    $CONDA_DIR/bin/conda run -n pyenv pip install -r requirements.txt && \
+    $CONDA_DIR/bin/conda run -n pyenv pip install . && \
+    cd / && rm -rf /tmp/exllamav2
 
 # Install git lfs
 RUN apt-get update && apt-get install -y git-lfs && git lfs install

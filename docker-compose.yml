@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   yue-exllamav2-interface:
     build:
