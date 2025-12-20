@@ -68,15 +68,18 @@ RUN wget https://github.com/conda-forge/miniforge/releases/latest/download/Minif
 ARG PYTORCH="2.5.1"
 ARG CUDA="124"
 
-# Install PyTorch with specified version and CUDA
+# Install PyTorch nightly for RTX 5080 (sm_120 Blackwell support)
+# The stable 2.5.1 doesn't support sm_120, need nightly or 2.6+
 RUN $CONDA_DIR/bin/conda run -n pyenv \
-    pip install torch==$PYTORCH torchvision torchaudio --index-url https://download.pytorch.org/whl/cu$CUDA
+    pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu$CUDA
 
 RUN $CONDA_DIR/bin/conda install -n pyenv nvidia/label/cuda-12.4.1::cuda-nvcc
 
 RUN $CONDA_DIR/bin/conda run -n pyenv pip install setuptools
 
-# Build and install exllamav2 from source
+# Build and install exllamav2 from source with RTX 5080 support
+# Set TORCH_CUDA_ARCH_LIST to include sm_120 (Blackwell)
+ENV TORCH_CUDA_ARCH_LIST="8.0;8.6;8.9;9.0;12.0"
 RUN git clone https://github.com/turboderp/exllamav2 /tmp/exllamav2 && \
     cd /tmp/exllamav2 && \
     $CONDA_DIR/bin/conda run -n pyenv pip install -r requirements.txt && \
