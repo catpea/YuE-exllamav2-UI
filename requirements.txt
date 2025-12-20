@@ -1,6 +1,4 @@
-torch
 omegaconf
-torchaudio
 einops
 numpy
 transformers

@@ -70,8 +70,10 @@ ARG CUDA="124"
 
 # Install PyTorch nightly for RTX 5080 (sm_120 Blackwell support)
 # The stable 2.5.1 doesn't support sm_120, need nightly or 2.6+
+# Install torch first, then torchaudio from conda-forge (more compatible)
 RUN $CONDA_DIR/bin/conda run -n pyenv \
-    pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu$CUDA
+    pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu$CUDA && \
+    $CONDA_DIR/bin/conda install -n pyenv torchaudio -y
 
 RUN $CONDA_DIR/bin/conda install -n pyenv nvidia/label/cuda-12.4.1::cuda-nvcc
 
