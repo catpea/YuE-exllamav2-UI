@@ -69,9 +69,13 @@ ARG PYTORCH="2.5.1"
 ARG CUDA="124"
 
 # Install PyTorch with CUDA support for RTX 5080 (sm_120 Blackwell support)
-# Using conda to ensure CUDA support is properly configured
+# Explicitly avoid conda-forge for pytorch to prevent CPU-only version
+# Force pytorch-nightly channel to get CUDA builds
 RUN $CONDA_DIR/bin/conda install -n pyenv \
-    pytorch pytorch-cuda=12.4 torchaudio -c pytorch-nightly -c nvidia -y
+    pytorch pytorch-cuda=12.4 torchaudio \
+    -c pytorch-nightly -c nvidia \
+    --override-channels \
+    -y
 
 RUN $CONDA_DIR/bin/conda install -n pyenv nvidia/label/cuda-12.4.1::cuda-nvcc
 
