@@ -14,7 +14,10 @@ services:
       # Recommended for 16GB VRAM: YuE-s1-7B-anneal-en-cot-exl2-4.0bpw,YuE-s2-1B-general-exl2-6.0bpw,YuE-upsampler
       - DOWNLOAD_MODELS=${DOWNLOAD_MODELS:-YuE-s1-7B-anneal-en-cot-exl2-4.0bpw,YuE-s2-1B-general-exl2-6.0bpw,YuE-upsampler}
       - HF_TOKEN=${HF_TOKEN:-}
-      - NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-all}
+      - NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-0}
+      - CUDA_VISIBLE_DEVICES=0
+      - CUDA_HOME=/usr/local/cuda
+      - LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
     volumes:
       - ${WORKSPACE_DIR:-./workspace}/models:/workspace/models
       - ${WORKSPACE_DIR:-./workspace}/outputs:/workspace/outputs

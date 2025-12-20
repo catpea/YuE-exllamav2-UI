@@ -72,8 +72,8 @@ ARG CUDA="124"
 # The stable 2.5.1 doesn't support sm_120, need nightly or 2.6+
 # Install torch first, then torchaudio from conda-forge (more compatible)
 RUN $CONDA_DIR/bin/conda run -n pyenv \
-    pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu$CUDA && \
-    $CONDA_DIR/bin/conda install -n pyenv torchaudio -y
+    pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu124 && \
+    $CONDA_DIR/bin/conda install -n pyenv torchaudio pytorch-cuda=12.4 -c pytorch-nightly -c nvidia -y
 
 RUN $CONDA_DIR/bin/conda install -n pyenv nvidia/label/cuda-12.4.1::cuda-nvcc
 
