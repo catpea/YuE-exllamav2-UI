@@ -7,6 +7,11 @@ REPO_DIR=${REPO_DIR:-"/workspace/YuE-exllamav2-UI"}
 PROJECT_DIR=${PROJECT_DIR:-"/workspace/YuE-exllamav2-UI/src/yue"}
 MODEL_DIR=${MODEL_DIR:-"/workspace/models"}
 
+# Ensure CUDA environment is set
+export CUDA_HOME=${CUDA_HOME:-/usr/local/cuda}
+export PATH="$CUDA_HOME/bin:$PATH"
+export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+
 echo "DOWNLOAD_MODELS is: $DOWNLOAD_MODELS"
 
 source /opt/conda/etc/profile.d/conda.sh
